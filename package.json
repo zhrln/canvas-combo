@@ -1,0 +1,17 @@
+{
+  "name": "canvas-combo",
+  "version": "0.0.1",
+  "description": "用canvas合并通栏图片，用于解决大图拆分后图片缩放导致的1像素bug",
+  "main": "canvas-combo.js",
+  "author": "zhangrui",
+  "license": "MIT",
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "gulp-clean": "^0.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-insert": "^0.5.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.1",
+    "gulp-ngm-umdwrap": "^1.0.1"
+  }
+}
