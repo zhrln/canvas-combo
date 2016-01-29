@@ -8,20 +8,19 @@ _* 先把文档写完再写代码_
 
 ```HTML
 <body>
-	<div id="wrap"></div>
+    <div id="wrap"></div>
 </body>
 ```
 
-
 ```Javascript
-// canvasCombo(wrapElm, params);
-canvasCombo('#wrap', {
-	images: [
-		'image1',
-		'image2',
-		'image3'
-	]
-	// options...
+var CanvasCombo = require('canvas-combo');
+var canvasCombo = new CanvasCombo('#wrap', {
+    images: [
+        'image1',
+        'image2',
+        'image3'
+    ]
+    // options...
 });
 ```
 
@@ -29,13 +28,18 @@ canvasCombo('#wrap', {
 
 - images Array 需要拼接的图片列表
 
+### API
+
+- canvasCombo.add('image4')  添加单张图片
+- canvasCombo.add(['image4', 'image5'])  添加一组图片
+- canvasCombo.getHeight()  取图片高度
 
 ### 输出
 
 ```HTML
 <body>
-	<div id="wrap">
-		<img class="j-canvas-combo" src="datauri">
-	</div>
+    <div id="wrap">
+        <img class="j-canvas-combo" src="datauri">
+    </div>
 </body>
 ```
