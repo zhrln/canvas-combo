@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="wrap"></div>
+<script src="../src/canvas-combo.js"></script>
+<script>
+    var canvasCombo;
+    if(false){
+        canvasCombo = new lib.CanvasCombo('#wrap', {
+            images: [
+                '//gw.alicdn.com/tps/TB1a7F4LpXXXXaJXXXXXXXXXXXX-640-400.png',
+                '//gw.alicdn.com/tps/TB1UGxRLpXXXXaoXFXXXXXXXXXX-640-400.png',
+                '//gw.alicdn.com/tps/TB1z2xFLpXXXXcnXVXXXXXXXXXX-640-200.png',
+                '//gw.alicdn.com/tps/TB1rJ8BLpXXXXaaaXXXXXXXXXXX-640-200.png',
+                '//gw.alicdn.com/tps/TB1cMp2LpXXXXcIXXXXXXXXXXXX-640-400.png',
+                '//gw.alicdn.com/tps/TB1qStVLpXXXXa2XpXXXXXXXXXX-640-400.png',
+                '//gw.alicdn.com/tps/TB1VTNYLpXXXXXzXpXXXXXXXXXX-640-260.png'
+            ]
+        });
+    }else{
+        canvasCombo = new lib.CanvasCombo('#wrap');
+        canvasCombo.add('//gw.alicdn.com/tps/TB1a7F4LpXXXXaJXXXXXXXXXXXX-640-400.png');
+        canvasCombo.add('//gw.alicdn.com/tps/TB1UGxRLpXXXXaoXFXXXXXXXXXX-640-400.png');
+        canvasCombo.add('//gw.alicdn.com/tps/TB1z2xFLpXXXXcnXVXXXXXXXXXX-640-200.png');
+        canvasCombo.add('//gw.alicdn.com/tps/TB1rJ8BLpXXXXaaaXXXXXXXXXXX-640-200.png');
+        canvasCombo.add('//gw.alicdn.com/tps/TB1cMp2LpXXXXcIXXXXXXXXXXXX-640-400.png');
+        canvasCombo.add('//gw.alicdn.com/tps/TB1qStVLpXXXXa2XpXXXXXXXXXX-640-400.png');
+        canvasCombo.add('//gw.alicdn.com/tps/TB1VTNYLpXXXXXzXpXXXXXXXXXX-640-260.png');
+    }
+</script>
+</body>
+</html>
