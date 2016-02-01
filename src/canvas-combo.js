@@ -27,7 +27,7 @@
         this.loadStatus = 0;
         this.contentImage = createContentImage();
         this.$wrap = typeof wrapElm === 'string' ? document.querySelector(wrapElm) : wrapElm;
-
+// TODO 设置可单独制定img或者挂载点
         this._canvas = _newCanvasObj.canvas;
         this._context = _newCanvasObj.context;
 
