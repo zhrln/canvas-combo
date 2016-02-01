@@ -99,8 +99,9 @@
         }.bind(this));
     }
 
-    function render(data){
+    function render(data, src){
         // TODO 完成渲染逻辑
+        console.log(src);
     }
 
     fn.pullImageData = function(){
