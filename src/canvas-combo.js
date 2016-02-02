@@ -166,5 +166,4 @@
 
     lib.CanvasCombo = CanvasCombo;
 
-
 }(window, window['lib'] || (window['lib'] = {})));
