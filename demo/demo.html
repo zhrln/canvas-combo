@@ -6,20 +6,24 @@
 </head>
 <body>
 <div id="wrap"></div>
+<img id="img1">
 <script src="../src/canvas-combo.js"></script>
 <script>
     var canvasCombo;
-    if(false){
-        canvasCombo = new lib.CanvasCombo('#wrap', {
-            images: [
-                '//gw.alicdn.com/tfscom/TB19dazLXXXXXXmapXXXXXXXXXX.jpg',
-                '//gw.alicdn.com/tfscom/TB1LZwyLXXXXXb0XpXXXXXXXXXX.jpg',
-                '//gw.alicdn.com/tfscom/TB1ZnhRKVXXXXXqXXXXXXXXXXXX.jpg',
-                '//gw.alicdn.com/tfscom/TB1OgpCKVXXXXcGXpXXXXXXXXXX.jpg',
-                '//gw.alicdn.com/tfscom/TB1TRjtKXXXXXbnXVXXXXXXXXXX.jpg',
-                '//gw.alicdn.com/tfscom/TB1T0PNKXXXXXbdXpXXXXXXXXXX.jpg',
-                '//gw.alicdn.com/tfscom/TB1G4bYKXXXXXaDXXXXXXXXXXXX.jpg'
-            ]
+    var images = [
+            '//gw.alicdn.com/tfscom/TB19dazLXXXXXXmapXXXXXXXXXX.jpg',
+            '//gw.alicdn.com/tfscom/TB1LZwyLXXXXXb0XpXXXXXXXXXX.jpg',
+            '//gw.alicdn.com/tfscom/TB1ZnhRKVXXXXXqXXXXXXXXXXXX.jpg',
+            '//gw.alicdn.com/tfscom/TB1OgpCKVXXXXcGXpXXXXXXXXXX.jpg',
+            '//gw.alicdn.com/tfscom/TB1TRjtKXXXXXbnXVXXXXXXXXXX.jpg',
+            '//gw.alicdn.com/tfscom/TB1T0PNKXXXXXbdXpXXXXXXXXXX.jpg',
+            '//gw.alicdn.com/tfscom/TB1G4bYKXXXXXaDXXXXXXXXXXXX.jpg'
+        ];
+
+
+    if(true){
+        canvasCombo = new lib.CanvasCombo('#img1', {
+            images: images
         });
     }else{
         canvasCombo = new lib.CanvasCombo('#wrap');
