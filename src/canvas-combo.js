@@ -2,17 +2,21 @@
  * Created by zhangrui on Fri Jan 29 2016.
  */
 
+/*
+ var statusMap = [
+ 'unknow',
+ 'loading',
+ 'complete'
+ ];
+ */
+
 (function(win, lib){
+
+    'use strict';
 
     if(lib.CanvasCombo) return;
 
     var imageStorage = {};
-
-    var statusMap = [
-        'unknow',
-        'loading',
-        'complete'
-    ];
 
     var CanvasCombo = function(wrapElm, params){
         init.apply(this, arguments);
@@ -25,18 +29,22 @@
 
         this.imageQueue = [];
         this.loadStatus = 0;
-        this.contentImage = createContentImage();
         this.$wrap = typeof wrapElm === 'string' ? document.querySelector(wrapElm) : wrapElm;
-// TODO 设置可单独制定img或者挂载点
+
         this._canvas = _newCanvasObj.canvas;
         this._context = _newCanvasObj.context;
 
         if(params && params.images && params.images.length){
-            this.original = params.images;
             this.add(params.images);
         }
 
-        appendToWrap(this.$wrap, this.contentImage);
+        if(this.$wrap.tagName && this.$wrap.tagName.toLowerCase() == 'img'){
+            this.contentImage = this.$wrap;
+        }else{
+            this.contentImage = createContentImage();
+            appendToWrap(this.$wrap, this.contentImage);
+        }
+
     }
 
     function createContentImage(){
@@ -50,80 +58,110 @@
     }
 
     function getNewCanvasObj(){
-        var _canvas = document.createElement('canvas');
+        var _canvas = document.createElement('canvas'),
+            _context = _canvas.getContext("2d");
+        _canvas.width = 0;
+        _canvas.height = 0;
         return {
             canvas: _canvas,
-            context: _canvas.getContext("2d")
+            context: _context
         }
     }
 
     function getImageData(src, callback){
         if(imageStorage[src]){
-            success && success(imageStorage[src]);
+            callback && callback(null, imageStorage[src]);
             return;
         }
         var _img = new Image();
-        var templateCanvas = getNewCanvasObj();
         _img.crossOrigin = 'anonymous';
         _img.onload = function(){
-            templateCanvas.canvas.width = this.width;
-            templateCanvas.canvas.height = this.height;
-            templateCanvas.context.drawImage(this, 0, 0);
-            imageStorage[src] = {
-                width: this.width,
-                height: this.height,
-                datauri: templateCanvas.canvas.toDataURL("image/png")
-            };
+            imageStorage[src] = this;
             _img = null;
-            templateCanvas = null;
             callback && callback(null, imageStorage[src]);
         };
         _img.onerror = function(){
+            _img = null;
             callback && callback('err')
         };
         _img.src = src;
     }
 
     function pullImageData(){
+        if(this.loadStatus == 1){
+            return;
+        }
         if(this.imageQueue.length == 0){
+            if(this.loadStatus == 2){
+                draw.call(this, combo.call(this));
+                render.call(this);
+                this.imgTmpCache = [];
+            }
             this.loadStatus = 0;
             return;
         }
         this.loadStatus = 1;
-        var _imgsrc = this.imageQueue.shift();
-        getImageData(_imgsrc, function(err, data){
+        this.imgTmpCache = this.imgTmpCache || [];
+        var _imgSrc = this.imageQueue.shift();
+        getImageData(_imgSrc, function(err, img){
             if(!err){
-                render.call(this, data, _imgsrc);
+                this.imgTmpCache.push(img);
+                this.loadStatus = 2;
                 pullImageData.call(this);
             }
         }.bind(this));
     }
 
-    function render(data, src){
-        // TODO 完成渲染逻辑
-        console.log(src);
+    function combo(){
+        this.tempCanvasObj = this.tempCanvasObj || getNewCanvasObj();
+        var calcHeight = 0,
+            calcWidth = 0,
+            lastHeight = 0,
+            tempCanvasObj = this.tempCanvasObj,
+            arr = this.imgTmpCache;
+        arr.forEach(function(n){
+            calcHeight += n.height;
+            calcWidth = Math.max(calcWidth, n.width);
+        });
+        tempCanvasObj.canvas.width = calcWidth;
+        tempCanvasObj.canvas.height = calcHeight;
+        tempCanvasObj.context.fillStyle = "#ffffff";
+        tempCanvasObj.context.fillRect(0, 0, calcWidth, calcHeight);
+        arr.forEach(function(n){
+            tempCanvasObj.context.drawImage(n, 0, lastHeight);
+            lastHeight += n.height;
+        });
+        return tempCanvasObj.context.getImageData(0, 0, tempCanvasObj.canvas.width, tempCanvasObj.canvas.height);
     }
 
-    fn.pullImageData = function(){
-        if(this.loadStatus == 1){
-            return;
+    function draw(imageData){
+        var lastHeight = this._canvas.height;
+        var lastImageData;
+        if(this._canvas.width && this._canvas.height){
+            lastImageData = this._context.getImageData(0, 0, this._canvas.width, this._canvas.height);
         }
-        pullImageData.call(this);
-    };
+        this._canvas.width = Math.max(this._canvas.width, imageData.width);
+        this._canvas.height += imageData.height;
 
-    fn.add = function(imgsrc){
-        if(typeof imgsrc === 'string'){
-            this.imageQueue.push(imgsrc);
-        }else if(imgsrc && Object.prototype.toString.call(imgsrc) === '[object Array]'){
-            Array.prototype.push.apply(this.imageQueue, imgsrc);
+        if(lastImageData){
+            this._context.putImageData(lastImageData, 0, 0);
+        }
+        this._context.putImageData(imageData, 0, lastHeight);
+    }
+
+    function render(){
+        this.contentImage.src = this._canvas.toDataURL("image/jpeg");
+    }
+
+    fn.add = function(imgSrc){
+        if(typeof imgSrc === 'string'){
+            this.imageQueue.push(imgSrc);
+        }else if(imgSrc && Object.prototype.toString.call(imgSrc) === '[object Array]'){
+            Array.prototype.push.apply(this.imageQueue, imgSrc);
         }else{
             return 0;
         }
-        this.pullImageData();
-    };
-
-    fn.render = function(){
-        this.contentImage.src = this._canvas.toDataURL("image/png");
+        pullImageData.call(this);
     };
 
     lib.CanvasCombo = CanvasCombo;
