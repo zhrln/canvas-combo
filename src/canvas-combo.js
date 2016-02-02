@@ -18,9 +18,31 @@
 
     var imageStorage = {};
 
+    var supportCORS = (function(img){return (img.crossOrigin !== undefined)}(new Image));
+
     var CanvasCombo = function(wrapElm, params){
+        if(!supportCORS){
+            console.warn('浏览器不支持CORS');
+        }
         init.apply(this, arguments);
     };
+
+    function unSupportFun(){
+
+        if(this.$wrap.className.indexOf('j-unsupport-cors') == -1){
+            this.$wrap.className += ' j-unsupport-cors';
+        }
+
+        var _tmp = document.createDocumentFragment(),
+            img  = createContentImage();
+
+        while(this.imageQueue.length){
+            img.src = this.imageQueue.shift();
+            _tmp.appendChild(img);
+        }
+
+        appendToWrap(this.$wrap, _tmp);
+    }
 
     var fn = CanvasCombo.prototype;
 
@@ -39,12 +61,16 @@
         }
 
         if(this.$wrap.tagName && this.$wrap.tagName.toLowerCase() == 'img'){
+            if(!supportCORS){
+                throw new Error('浏览器不支持CORS,需要设置一个不是IMG的容器');
+            }
             this.contentImage = this.$wrap;
         }else{
-            this.contentImage = createContentImage();
-            appendToWrap(this.$wrap, this.contentImage);
+            if(supportCORS){
+                this.contentImage = createContentImage();
+                appendToWrap(this.$wrap, this.contentImage);
+            }
         }
-
     }
 
     function createContentImage(){
@@ -161,7 +187,15 @@
         }else{
             return 0;
         }
-        pullImageData.call(this);
+        if(supportCORS){
+            pullImageData.call(this);
+        }else{
+            unSupportFun.call(this);
+        }
+    };
+
+    fn.supportCORS = function(){
+        return supportCORS;
     };
 
     lib.CanvasCombo = CanvasCombo;
