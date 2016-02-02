@@ -4,8 +4,6 @@
 
 ## 使用方法
 
-_* 先把文档写完再写代码_
-
 ```HTML
 <body>
     <div id="wrap1"></div>
@@ -14,6 +12,7 @@ _* 先把文档写完再写代码_
 ```
 
 ```Javascript
+// 可以制定一个容器
 var CanvasCombo = require('canvas-combo');
 var canvasCombo1 = new CanvasCombo('#wrap1', {
     images: [
@@ -23,6 +22,8 @@ var canvasCombo1 = new CanvasCombo('#wrap1', {
     ]
     // options...
 });
+
+// 也可以制定一个图片元素
 var canvasCombo2 = new CanvasCombo('#img1', {
     images: [
         'image4',
@@ -31,11 +32,20 @@ var canvasCombo2 = new CanvasCombo('#img1', {
     ]
     // options...
 });
+
+// 还可以追加图片
+canvasCombo.add('image4')  // 添加单张图片
+canvasCombo.add(['image4', 'image5'])  //添加一组图片
 ```
 
 ### 参数
 
-- images Array 需要拼接的图片列表
+```
+new CanvasCombo(wrapElm | imgElm, {
+	images: Array // 需要拼接的图片列表
+})
+```
+
 
 ### API
 
@@ -49,6 +59,6 @@ var canvasCombo2 = new CanvasCombo('#img1', {
     <div id="wrap1">
         <img class="j-canvas-combo" src="datauri">
     </div>
-    <img id="img1" src=""datauri>
+    <img id="img1" src="datauri">
 </body>
 ```
