@@ -8,17 +8,26 @@ _* 先把文档写完再写代码_
 
 ```HTML
 <body>
-    <div id="wrap"></div>
+    <div id="wrap1"></div>
+    <img id="img1">
 </body>
 ```
 
 ```Javascript
 var CanvasCombo = require('canvas-combo');
-var canvasCombo = new CanvasCombo('#wrap', {
+var canvasCombo1 = new CanvasCombo('#wrap1', {
     images: [
         'image1',
         'image2',
         'image3'
+    ]
+    // options...
+});
+var canvasCombo2 = new CanvasCombo('#img1', {
+    images: [
+        'image4',
+        'image5',
+        'image6'
     ]
     // options...
 });
@@ -32,14 +41,14 @@ var canvasCombo = new CanvasCombo('#wrap', {
 
 - canvasCombo.add('image4')  添加单张图片
 - canvasCombo.add(['image4', 'image5'])  添加一组图片
-- canvasCombo.getHeight()  取图片高度
 
 ### 输出
 
 ```HTML
 <body>
-    <div id="wrap">
+    <div id="wrap1">
         <img class="j-canvas-combo" src="datauri">
     </div>
+    <img id="img1" src=""datauri>
 </body>
 ```
