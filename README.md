@@ -62,3 +62,8 @@ new CanvasCombo(wrapElm | imgElm, {
     <img id="img1" src="datauri">
 </body>
 ```
+
+### 兼容性
+
+- Android 4.0 ~ 4.3 的 Canvas 不支持取 CORS 的 IMG，所以降级使用图片堆叠
+- iOS 5.1 及以下版本的 Canvas 不支持取 CORS 的 IMG，所以降级使用图片堆叠
