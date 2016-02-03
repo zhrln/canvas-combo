@@ -34,9 +34,10 @@
         }
 
         var _tmp = document.createDocumentFragment(),
-            img  = createContentImage();
+            img;
 
         while(this.imageQueue.length){
+            img  = createContentImage();
             img.src = this.imageQueue.shift();
             _tmp.appendChild(img);
         }
