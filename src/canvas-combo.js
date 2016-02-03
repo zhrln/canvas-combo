@@ -30,7 +30,7 @@
     function unSupportFun(){
 
         if(this.$wrap.className.indexOf('j-unsupport-cors') == -1){
-            this.$wrap.className += ' j-unsupport-cors';
+            this.$wrap.className = this.$wrap.className.split(' ').concat('j-unsupport-cors').join(' ');
         }
 
         var _tmp = document.createDocumentFragment(),
